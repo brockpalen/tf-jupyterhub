@@ -8,6 +8,7 @@ variable "gcp_project" {
   default     = "brockp-terraform-admin"
 }
 
+######################################
 ## Configuration file for jupyterhub
 #  Spawner options: http://jupyterhub-kubespawner.readthedocs.io/en/latest/spawner.html
 #  Jupyterhub Opitions: https://github.com/jupyterhub/kubespawner/blob/master/jupyterhub_config.py
@@ -36,7 +37,7 @@ c.KubeSpawner.volumes=[
   {
     'name': 'nfs-volume', 
     'persistentVolumeClaim': {
-      'claimName': '${kubernetes_persistent_volume.nfs-volume.metadata.0.name}'
+      'claimName': '${module.kube-nfs.nfs-volume}'
     }
   }
  ]
