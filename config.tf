@@ -1,4 +1,4 @@
-##########################
+###############################################################################
 ## Google Region 
 
 variable "gcp_region" {
@@ -6,7 +6,7 @@ variable "gcp_region" {
   default     = "us-central1"
 }
 
-#############################
+###############################################################################
 ## Google Project 
 
 variable "gcp_project" {
@@ -15,7 +15,7 @@ variable "gcp_project" {
 }
 
 
-############################
+###############################################################################
 ## DNS Setup 
 variable "dns_zone" {
   description = "manged DNS zone, as named in cloud provider"
@@ -27,8 +27,9 @@ variable "dns_name" {
   default = "jupyterhub.gcp.brockpalen.com."
 }
 
-######################################
-## Configuration file for jupyterhub
+###############################################################################
+##
+#  Configuration file for jupyterhub
 #  Spawner options: http://jupyterhub-kubespawner.readthedocs.io/en/latest/spawner.html
 #  Jupyterhub Opitions: https://github.com/jupyterhub/kubespawner/blob/master/jupyterhub_config.py
 
@@ -89,3 +90,9 @@ c.ConfigurableHTTPProxy.should_start=False
 EOM
   }
 }
+
+###############################################################################
+## 
+#   END JUPYTERHUB CONFIG
+##
+###############################################################################

@@ -7,9 +7,7 @@ The goal is to create a Jupyterhub instance on Kubernetes
 hpc-support@umich.edu
 
 
- * TODO: Refactor as modules
  * TODO: Document IAM Roles
- * TODO: Remove Kubernetes Password / use only certs
  * TODO: Setup SSL Proxy / Load Balancer for Oauth
  * TODO: Setup Oauth against Globus
  * TODO: Add containers for addons eg. Julia
