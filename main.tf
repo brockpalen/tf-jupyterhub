@@ -1,9 +1,7 @@
-
 ######################################
 ## Configure the Google Cloud provider
 #
 #  Connect to GCP and create a GKE (Google Container Engine) instance
-
 
 provider "google" {
   credentials = "${file("terraform-admin.json")}"
@@ -34,17 +32,14 @@ resource "google_container_cluster" "kube" {
   }
 }
 
-
-
-
 #######################################
 ## Configure kubernetes provider and create service account for use with PODs
 #
 # start container on the created cluster kube
 #
 provider "kubernetes" {
-  host     = "https://${google_container_cluster.kube.endpoint}"
-  client_certificate = "${base64decode(google_container_cluster.kube.master_auth.0.client_certificate)}"
+  host                   = "https://${google_container_cluster.kube.endpoint}"
+  client_certificate     = "${base64decode(google_container_cluster.kube.master_auth.0.client_certificate)}"
   client_key             = "${base64decode(google_container_cluster.kube.master_auth.0.client_key)}"
   cluster_ca_certificate = "${base64decode(google_container_cluster.kube.master_auth.0.cluster_ca_certificate)}"
 }
@@ -60,7 +55,6 @@ module "jupyterhub" {
   # Pass in config file from config.tf
   jupyterhub-config = "${kubernetes_config_map.jupyterhub-config.metadata.0.name}"
 }
-
 
 ########################################
 ## Pull in NFS server on Kubernetes deffinition

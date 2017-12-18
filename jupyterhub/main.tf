@@ -12,7 +12,6 @@ output "jupyter_service_lbip" {
   value = "${kubernetes_service.jupyter-public.load_balancer_ingress.0.ip}"
 }
 
-
 ##############################
 ## Start Main Module
 #
@@ -22,10 +21,12 @@ resource "kubernetes_service_account" "kube-sa" {
   metadata {
     name = "kube-sa"
   }
+
   secret {
     name = "${kubernetes_secret.kube-secret.metadata.0.name}"
   }
 }
+
 resource "kubernetes_secret" "kube-secret" {
   metadata {
     name = "kube-secret"
@@ -48,12 +49,15 @@ resource "kubernetes_pod" "jupyterhub" {
     container {
       image = "jupyterhub/configurable-http-proxy"
       name  = "proxy"
+
       port {
         container_port = 8000
       }
+
       port {
         container_port = 8001
       }
+
       command = [
         "configurable-http-proxy",
         "--ip",
@@ -70,19 +74,23 @@ resource "kubernetes_pod" "jupyterhub" {
     container {
       image = "brockp/jupyterhub-k8s:0.2"
       name  = "hub"
+
       port {
         container_port = 8081
       }
+
       command = [
-       "jupyterhub",
-       "-f",
-       "/srv/jupyterhub/config/jupyterhub-config.py"
+        "jupyterhub",
+        "-f",
+        "/srv/jupyterhub/config/jupyterhub-config.py",
       ]
+
       volume_mount {
         mount_path = "/var/run/secrets/kubernetes.io/serviceaccount"
         name       = "${kubernetes_service_account.kube-sa.default_secret_name}"
         read_only  = true
       }
+
       volume_mount {
         mount_path = "/srv/jupyterhub/config/"
         name       = "jupyterhub-config"
@@ -93,12 +101,15 @@ resource "kubernetes_pod" "jupyterhub" {
     container {
       image = "centos:latest"
       name  = "sleep"
+
       port {
         container_port = 8000
       }
+
       port {
         container_port = 8001
       }
+
       command = [
         "sleep",
         "3600",

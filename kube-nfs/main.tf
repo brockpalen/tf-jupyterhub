@@ -4,9 +4,8 @@
 
 output "nfs-volume" {
   description = "Name of NFS persistent_volume name for shared data location in notebooks"
-  value = "${kubernetes_persistent_volume.nfs-volume.metadata.0.name}"
+  value       = "${kubernetes_persistent_volume.nfs-volume.metadata.0.name}"
 }
-
 
 ##############################
 ## Start Main Module
@@ -17,17 +16,17 @@ resource "kubernetes_service_account" "nfs-sa" {
   metadata {
     name = "nfs-sa"
   }
+
   secret {
     name = "${kubernetes_secret.nfs-secret.metadata.0.name}"
   }
 }
+
 resource "kubernetes_secret" "nfs-secret" {
   metadata {
     name = "nfs-secret"
   }
 }
-
-
 
 #######################################
 ## NFS Server for presistant notebooks
@@ -52,10 +51,12 @@ resource "kubernetes_pod" "jupyter-nfs" {
         name           = "nfs"
         container_port = 2049
       }
+
       port {
         name           = "mountd"
         container_port = 20048
       }
+
       port {
         name           = "rpcbind"
         container_port = 111
