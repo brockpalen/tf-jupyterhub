@@ -70,3 +70,16 @@ module "jupyterhub" {
 module "kube-nfs" {
   source = "./kube-nfs"
 }
+
+###########################
+## Assign DNS to jupyterhub
+#
+resource "google_dns_record_set" "jupyterhub-lb" {
+  name = "${var.dns_name}"
+  type = "A"
+  ttl  = 300
+
+  managed_zone = "${var.dns_zone}"
+
+  rrdatas = ["${module.jupyterhub.jupyter_service_lbip}"]
+}

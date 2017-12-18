@@ -8,6 +8,10 @@ variable "jupyterhub-config" {
   description = "Pass in the jupyterhub-config.py from a config_map in root module"
 }
 
+output "jupyter_service_lbip" {
+  value = "${kubernetes_service.jupyter-public.load_balancer_ingress.0.ip}"
+}
+
 
 ##############################
 ## Start Main Module
@@ -156,21 +160,3 @@ resource "kubernetes_service" "hub-internal" {
     type = "ClusterIP"
   }
 }
-
-output "jupyter_service_lbip" {
-  value = "${kubernetes_service.jupyter-public.load_balancer_ingress.0.ip}"
-}
-
-## Assign DNS to jupyterhub
-resource "google_dns_record_set" "jupyterhub-lb" {
-  #name = "jupyterhub-lb.${google_dns_managed_zone.prod.dns_name}"
-  name = "jupyterhub.gcp.brockpalen.com."
-  type = "A"
-  ttl  = 300
-
-  #managed_zone = "${google_dns_managed_zone.prod.name}"
-  managed_zone = "gcp-brockpalen-com-zone"
-
-  rrdatas = ["${kubernetes_service.jupyter-public.load_balancer_ingress.0.ip}"]
-}
-

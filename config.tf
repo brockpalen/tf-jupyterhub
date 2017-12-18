@@ -1,11 +1,30 @@
+##########################
+## Google Region 
+
 variable "gcp_region" {
   description = "The region to place the cluster"
   default     = "us-central1"
 }
 
+#############################
+## Google Project 
+
 variable "gcp_project" {
   description = "Google Project to invoke under"
   default     = "brockp-terraform-admin"
+}
+
+
+############################
+## DNS Setup 
+variable "dns_zone" {
+  description = "manged DNS zone, as named in cloud provider"
+  default = "gcp-brockpalen-com-zone"
+}
+
+variable "dns_name" {
+  description = "FQDN including trailing . (for google) to use for service"
+  default = "jupyterhub.gcp.brockpalen.com."
 }
 
 ######################################
