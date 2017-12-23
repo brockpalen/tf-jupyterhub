@@ -18,12 +18,12 @@ variable "gcp_project" {
 ## DNS Setup 
 variable "dns_zone" {
   description = "manged DNS zone, as named in cloud provider"
-  default     = "gcp-brockpalen-com-zone"
+  default     = "gcp-arcts-zone"
 }
 
 variable "dns_name" {
   description = "FQDN including trailing . (for google) to use for service"
-  default     = "jupyterhub.gcp.brockpalen.com."
+  default     = "jupyterhub.gcp.arc-ts.umich.edu."
 }
 
 ###############################################################################
