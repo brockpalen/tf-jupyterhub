@@ -74,7 +74,7 @@ c.JupyterHub.spawner_class='kubespawner.KubeSpawner'
 c.KubeSpawner.start_timeout=1000
 
 # Which container to spawn
-c.KubeSpawner.singleuser_image_spec='brockp/jupyterhub-k8s:0.2'
+c.KubeSpawner.singleuser_image_spec='jupyterhub/singleuser:0.8'
 c.KubeSpawner.singleuser_service_account='default'
 c.KubeSpawner.user_storage_pvc_ensure=True
 c.KubeSpawner.debug=True
