@@ -23,7 +23,7 @@ variable "dns_zone" {
 
 variable "dns_name" {
   description = "FQDN including trailing . (for google) to use for service"
-  default     = "jupyterhub.gcp.arc-ts.umich.edu."
+  default     = "rajrao.gcp.arc-ts.umich.edu."
 }
 
 ###############################################################################
@@ -43,29 +43,29 @@ resource "kubernetes_config_map" "jupyterhub-config" {
 ##  User Kubernetes Spawner
 #   each time a user logs in a new POD is spawned,
 c.JupyterHub.spawner_class='kubespawner.KubeSpawner'
-c.KubeSpawner.start_timeout=600
+c.KubeSpawner.start_timeout=1000
 
 # Which container to spawn
-c.KubeSpawner.singleuser_image_spec='jupyterhub/singleuser:0.8'
+c.KubeSpawner.singleuser_image_spec='brockp/compdatasci-singleuser:0.1'
 c.KubeSpawner.singleuser_service_account='default'
 c.KubeSpawner.user_storage_pvc_ensure=True
 c.KubeSpawner.debug=True
 
-# mount in the NFS server to keep notebooks and data around between sessions
-c.KubeSpawner.volumes=[
-  {
-    'name': 'nfs-volume', 
-    'persistentVolumeClaim': {
-      'claimName': '${module.kube-nfs.nfs-volume}'
-    }
-  }
- ]
-c.KubeSpawner.volume_mounts=[
-  {
-    'name':'nfs-volume',
-    'mountPath':'/mnt/'
-  }
- ]
+## mount in the NFS server to keep notebooks and data around between sessions
+#c.KubeSpawner.volumes=[
+#  {
+#    'name': 'nfs-volume', 
+#    'persistentVolumeClaim': {
+#      'claimName': '${module.kube-nfs.nfs-volume}'
+#    }
+#  }
+# ]
+#c.KubeSpawner.volume_mounts=[
+#  {
+#    'name':'nfs-volume',
+#    'mountPath':'/mnt/'
+#  }
+# ]
 
 ## Authentication section
 # Options:
