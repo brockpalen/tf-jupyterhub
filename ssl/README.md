@@ -1,6 +1,7 @@
 # SSL Configuration
 
 This should be done via a kubernetes ingress controller but that is not currently available in terraform.
+[https://github.com/jupyterhub/jupyterhub/wiki/Installation-of-Jupyterhub-on-remote-server]
 
 # Request certificate
 
