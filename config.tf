@@ -1,4 +1,19 @@
 ###############################################################################
+##
+# DO NOT NORMALLY EDIT THESE FILES
+#    see: https://www.terraform.io/docs/configuration/variables.html Variable Files
+#
+#  Put all options in .tfvars eg:
+#    terraform plan -var-file=rajrao.tfvars
+
+
+
+
+
+
+
+
+###############################################################################
 ## Google Region 
 
 variable "gcp_region" {
@@ -27,6 +42,19 @@ variable "dns_name" {
 }
 
 ###############################################################################
+## SSL Configuration
+
+variable "ssl_cert" {
+  type        = "map"
+  description = "ssl certificate keys used by proxy"
+
+  #  default = {
+  #     cert = "${file("ssl/rajrao.gcp.arc-ts.umich.edu.cert")}"
+  #     key = "${file("ssl/rajrao.gcp.arc-ts.umich.edu.key")}"
+  #  }
+}
+
+###############################################################################
 ##
 #  Configuration file for jupyterhub
 #  Spawner options: http://jupyterhub-kubespawner.readthedocs.io/en/latest/spawner.html
@@ -46,7 +74,7 @@ c.JupyterHub.spawner_class='kubespawner.KubeSpawner'
 c.KubeSpawner.start_timeout=1000
 
 # Which container to spawn
-c.KubeSpawner.singleuser_image_spec='brockp/compdatasci-singleuser:0.1'
+c.KubeSpawner.singleuser_image_spec='brockp/jupyterhub-k8s:0.2'
 c.KubeSpawner.singleuser_service_account='default'
 c.KubeSpawner.user_storage_pvc_ensure=True
 c.KubeSpawner.debug=True

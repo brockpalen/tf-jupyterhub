@@ -54,6 +54,7 @@ module "jupyterhub" {
 
   # Pass in config file from config.tf
   jupyterhub-config = "${kubernetes_config_map.jupyterhub-config.metadata.0.name}"
+  ssl_cert          = "${var.ssl_cert}"
 }
 
 ########################################

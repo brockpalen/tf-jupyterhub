@@ -8,6 +8,11 @@ variable "jupyterhub-config" {
   description = "Pass in the jupyterhub-config.py from a config_map in root module"
 }
 
+variable "ssl_cert" {
+  description = "Map of cert and key with SSL creds for proxy"
+  type        = "map"
+}
+
 output "jupyter_service_lbip" {
   value = "${kubernetes_service.jupyter-public.load_balancer_ingress.0.ip}"
 }
@@ -30,6 +35,21 @@ resource "kubernetes_service_account" "kube-sa" {
 resource "kubernetes_secret" "kube-secret" {
   metadata {
     name = "kube-secret"
+  }
+}
+
+## Secret key and cert for SSL Support in Jupyterhub proxy
+resource "kubernetes_secret" "proxy-ssl" {
+  metadata {
+    name = "proxy-ssl"
+  }
+
+  data {
+    jupyterhub-cert.pem = "${file("${var.ssl_cert["cert"]}")}"
+    jupyterhub-key.key  = "${file("${var.ssl_cert["key"]}")}"
+
+    #jupyterhub-cert.pem = "${file("ssl/rajrao.gcp.arc-ts.umich.edu.cert")}"
+    #jupyterhub-key.key  = "${file("ssl/rajrao.gcp.arc-ts.umich.edu.key")}"
   }
 }
 
@@ -68,7 +88,17 @@ resource "kubernetes_pod" "jupyterhub" {
         "http://127.0.0.1:8081",
         "--error-target",
         "http://127.0.0.1:8081/hub/error",
+        "--ssl-key",
+        "/srv/configurable-http-proxy/ssl/jupyterhub-key.key",
+        "--ssl-cert",
+        "/srv/configurable-http-proxy/ssl/jupyterhub-cert.pem",
       ]
+
+      volume_mount {
+        mount_path = "/srv/configurable-http-proxy/ssl/"
+        name       = "proxy-ssl"
+        read_only  = true
+      }
     }
 
     container {
@@ -125,6 +155,14 @@ resource "kubernetes_pod" "jupyterhub" {
     }
 
     volume {
+      name = "proxy-ssl"
+
+      secret {
+        secret_name = "${kubernetes_secret.proxy-ssl.metadata.0.name}"
+      }
+    }
+
+    volume {
       name = "jupyterhub-config"
 
       config_map {
@@ -145,7 +183,7 @@ resource "kubernetes_service" "jupyter-public" {
     }
 
     port {
-      port        = 80
+      port        = 443
       target_port = 8000
     }
 
