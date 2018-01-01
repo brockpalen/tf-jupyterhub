@@ -7,6 +7,7 @@ ssl_cert = {
 
 ###############################################################################
 ## DNS Settings
+enable_dns = false
 dns_zone = "gcp-arcts-zone"
 dns_name = "brockp.gcp.arc-ts.umich.edu."
 

@@ -57,6 +57,10 @@ module "jupyterhub" {
   ssl_cert          = "${var.ssl_cert}"
 }
 
+output "jupyterhub_public_ip" {
+   value = "${module.jupyterhub.jupyter_service_lbip}"
+}
+
 ########################################
 ## Pull in NFS server on Kubernetes deffinition
 #
@@ -70,6 +74,7 @@ module "kube-nfs" {
 ## Assign DNS to jupyterhub
 #
 resource "google_dns_record_set" "jupyterhub-lb" {
+  count = "${var.enable_dns}"
   name = "${var.dns_name}"
   type = "A"
   ttl  = 300

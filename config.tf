@@ -24,6 +24,8 @@ variable "gcp_project" {
 
 ###############################################################################
 ## DNS Setup 
+variable "enable_dns" {}
+
 variable "dns_zone" {
   description = "manged DNS zone, as named in cloud provider"
   default     = "gcp-arcts-zone"
