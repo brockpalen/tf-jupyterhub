@@ -1,3 +1,5 @@
 *.terraform
 *.swp
 *.json
+*.tfvars
+!example.tfvars

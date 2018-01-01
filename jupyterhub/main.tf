@@ -102,8 +102,13 @@ resource "kubernetes_pod" "jupyterhub" {
     }
 
     container {
-      image = "brockp/jupyterhub-k8s:0.2"
+      image = "brockp/jupyterhub-k8s:0.3"
       name  = "hub"
+      env {
+        # required by oauth connector, this will create a new key each plan/apply
+        name = "JUPYTERHUB_CRYPT_KEY"
+        value = "${sha256(timestamp())}"
+      }
 
       port {
         container_port = 8081
@@ -126,24 +131,6 @@ resource "kubernetes_pod" "jupyterhub" {
         name       = "jupyterhub-config"
         read_only  = false
       }
-    }
-
-    container {
-      image = "centos:latest"
-      name  = "sleep"
-
-      port {
-        container_port = 8000
-      }
-
-      port {
-        container_port = 8001
-      }
-
-      command = [
-        "sleep",
-        "3600",
-      ]
     }
 
     volume {

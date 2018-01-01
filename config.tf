@@ -6,13 +6,6 @@
 #  Put all options in .tfvars eg:
 #    terraform plan -var-file=rajrao.tfvars
 
-
-
-
-
-
-
-
 ###############################################################################
 ## Google Region 
 
@@ -43,16 +36,18 @@ variable "dns_name" {
 
 ###############################################################################
 ## SSL Configuration
-
 variable "ssl_cert" {
   type        = "map"
   description = "ssl certificate keys used by proxy"
-
-  #  default = {
-  #     cert = "${file("ssl/rajrao.gcp.arc-ts.umich.edu.cert")}"
-  #     key = "${file("ssl/rajrao.gcp.arc-ts.umich.edu.key")}"
-  #  }
 }
+
+###############################################################################
+## Globus OAUTH Configuration
+variable "globus_oauth" {
+  type        = "map"
+  description = "Globus OAuth callback, client_id, and secret"
+}
+
 
 ###############################################################################
 ##
@@ -101,9 +96,20 @@ c.KubeSpawner.debug=True
 #  - ldap
 #  - k5
 #  - oauth
-c.JupyterHub.authenticator_class='dummyauthenticator.DummyAuthenticator'
 
-## TODO Place other auth options here
+## Uncomment to have no auth
+# c.JupyterHub.authenticator_class='dummyauthenticator.DummyAuthenticator'
+
+## Place other auth options here
+
+## Globus OAuth https://github.com/jupyterhub/oauthenticator#globus-setup
+from oauthenticator.globus import LocalGlobusOAuthenticator
+c.JupyterHub.authenticator_class = LocalGlobusOAuthenticator
+#c.LocalGlobusOAuthenticator.enable_auth_state = True
+c.LocalGlobusOAuthenticator.oauth_callback_url = "${var.globus_oauth["callback_url"]}"
+c.LocalGlobusOAuthenticator.client_id = "${var.globus_oauth["client_id"]}"
+c.LocalGlobusOAuthenticator.client_secret = "${var.globus_oauth["client_secret"]}"
+c.GlobusOAuthenticator.identity_provider = "${var.globus_oauth["identity_provider"]}"
 
 # standard options Don't change
 c.JupyterHub.allow_named_servers=True
