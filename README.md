@@ -11,18 +11,38 @@ hpc-support@umich.edu
  * TODO: Document how to add starting data to notebooks
  * TODO: Document how to change instance type
  * TODO: Document how to change resource claim per notebook
- * TODO: Remove extra centos pod 
  * TODO: Add containers for addons eg. Julia
 
-## Setup
+## Basic Setup
+
+Most options are documented in `example.tfvars` and `config.tf`
+
+ 1. Copy `example.tfvars`
+ 1. Create GCP Service Account create a key pair and download the secret
+ 1. Assign Service account IAM roles:
+    1. Viewer
+    1. Compute Admin
+    1. DNS Administrator (If using DNS Config)
+    1. Kubernetes Engine Admin
+    1. Service Account User
+    1. Storage Admin (For remote backend recomended)
+ 1. Create GCP bucket to hold Terraform state
+ 1. Update `backend.tf` for bucket, prefix, and project name
+ 1. Update `custom.tfvars` for creds
+ 1. Setup Cloud DNS Zone if not already exists in your project or disable
+ 1. Run: `terraform init -var-file=custom.tfvars` once
+ 1. Validate plan: `terraform plan -var-file=custom.tfvars`
+ 1. Apply plan: `terraform apply -var-file=custom.tfvars`
+ 1. Tear it all down: `terraform destory -var-file=custom.tfvars`
+
+
+## Enable Globus OAuth
 
  1. Generate SSL Keys and Cert (This takes time from the authority)
-  1. `openssl req -new -newkey rsa:2048 -keyout DNS.gcp.arc-ts.umich.edu.key -out dns.gcp.arc-ts.umich.edu.csr`
-  1. Remove password from key: `openssl rsa -in DNS.gcp.arc-ts.umich.edu.key -out no-pass.key`
-  1. Use the password free key in your `tfvars` config file
- 1. Setup Cloud DNS Zone if not already exists in your project
+    1. `openssl req -new -newkey rsa:2048 -keyout DNS.gcp.arc-ts.umich.edu.key -out dns.gcp.arc-ts.umich.edu.csr`
+    1. Remove password from key: `openssl rsa -in DNS.gcp.arc-ts.umich.edu.key -out no-pass.key`
+    1. Use the password free key in your `tfvars` config file
  1. Setup OAuth provider at Globus.org ["https://github.com/jupyterhub/oauthenticator"]
- 1. Copy `example.tfvars` and edit for your own values
  1. Validate plan: `terraform plan -var-file=custom.tfvars`
  1. Apply plan: `terraform apply -var-file=custom.tfvars`
  1. Tear it all down: `terraform destory -var-file=custom.tfvars`
