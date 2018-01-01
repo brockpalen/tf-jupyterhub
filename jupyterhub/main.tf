@@ -157,6 +157,13 @@ resource "kubernetes_pod" "jupyterhub" {
       }
     }
   }
+# this will ignore the sha256() on every apply but other changes are ignored
+# Leaving here and if causes problem will remove
+      lifecycle {
+         ignore_changes = [
+           "spec"
+         ]
+      }
 }
 
 resource "kubernetes_service" "jupyter-public" {
