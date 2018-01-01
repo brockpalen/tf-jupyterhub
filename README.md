@@ -8,13 +8,11 @@ hpc-support@umich.edu
 
 
  * TODO: Document IAM Roles
- * TODO: Setup OAUTH
- * TODO: Setup Oauth against Globus
- * TODO: Add containers for addons eg. Julia
  * TODO: Document how to add starting data to notebooks
  * TODO: Document how to change instance type
  * TODO: Document how to change resource claim per notebook
  * TODO: Remove extra centos pod 
+ * TODO: Add containers for addons eg. Julia
 
 ## Setup
 
