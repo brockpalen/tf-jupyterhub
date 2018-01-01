@@ -24,7 +24,9 @@ variable "gcp_project" {
 
 ###############################################################################
 ## DNS Setup 
-variable "enable_dns" {}
+variable "enable_dns" {
+   default = false
+}
 
 variable "dns_zone" {
   description = "manged DNS zone, as named in cloud provider"
