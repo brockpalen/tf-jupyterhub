@@ -6,12 +6,11 @@ The goal is to create a Jupyterhub instance on Kubernetes
 
 hpc-support@umich.edu
 
-
- * TODO: Document IAM Roles
  * TODO: Document how to add starting data to notebooks
  * TODO: Document how to change instance type
  * TODO: Document how to change resource claim per notebook
  * TODO: Add containers for addons eg. Julia
+ * TODO: Add image to container and juptyerhub config
 
 ## Basic Setup
 
