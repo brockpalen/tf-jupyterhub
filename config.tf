@@ -152,6 +152,7 @@ c.JupyterHub.cleanup_servers=False
 
 # Don't start the Proxy 
 c.ConfigurableHTTPProxy.should_start=False
+c.JupyterHub.logo_file='/srv/jupyterhub/images/arcts-acronym-informal-sm.png'
 
 EOM
   }

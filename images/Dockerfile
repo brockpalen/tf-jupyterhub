@@ -6,8 +6,9 @@ RUN pip install oauthenticator
 RUN pip install jupyterhub-tmpauthenticator
 RUN pip install jupyterhub-dummyauthenticator
 RUN pip install 'globus_sdk[jwt]>=1.0.0,<2.0.0'
-
 RUN pip install jupyterhub-kubespawner
+
+COPY ["images", "/srv/jupyterhub/images"]
 
 WORKDIR /srv/jupyterhub
 

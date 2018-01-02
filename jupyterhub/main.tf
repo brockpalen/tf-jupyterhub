@@ -102,7 +102,7 @@ resource "kubernetes_pod" "jupyterhub" {
     }
 
     container {
-      image = "brockp/jupyterhub-k8s:0.3"
+      image = "brockp/jupyterhub-k8s:0.3.1"
       name  = "hub"
       env {
         # required by oauth connector, this will create a new key each plan/apply
