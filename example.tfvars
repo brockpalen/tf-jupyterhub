@@ -1,4 +1,11 @@
 ###############################################################################
+## Google Cloud config options
+#  gcp_cred is a json formated service account secret
+gcp_cred = "terraform-admin.json"
+gcp_region = "us-central1"
+gcp_project = "brockp-terraform-admin"
+
+###############################################################################
 ## SSL Certificate and key paths
 ssl_cert = {
    cert = "ssl/rajrao.gcp.arc-ts.umich.edu.cert"

@@ -21,15 +21,16 @@
 #    terraform plan -var-file=rajrao.tfvars
 
 ###############################################################################
-## Google Region 
+## Google Cloud Options
+
+variable "gcp_cred" {
+  description = "Cred secret for GCP API"
+}
 
 variable "gcp_region" {
   description = "The region to place the cluster"
   default     = "us-central1"
 }
-
-###############################################################################
-## Google Project 
 
 variable "gcp_project" {
   description = "Google Project to invoke under"

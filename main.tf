@@ -4,7 +4,7 @@
 #  Connect to GCP and create a GKE (Google Container Engine) instance
 
 provider "google" {
-  credentials = "${file("terraform-admin.json")}"
+  credentials = "${file("${var.gcp_cred}")}"
   project     = "${var.gcp_project}"
   region      = "${var.gcp_region}"
 }
