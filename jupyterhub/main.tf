@@ -104,9 +104,10 @@ resource "kubernetes_pod" "jupyterhub" {
     container {
       image = "brockp/jupyterhub-k8s:0.3.1"
       name  = "hub"
+
       env {
         # required by oauth connector, this will create a new key each plan/apply
-        name = "JUPYTERHUB_CRYPT_KEY"
+        name  = "JUPYTERHUB_CRYPT_KEY"
         value = "${sha256(timestamp())}"
       }
 
@@ -157,13 +158,14 @@ resource "kubernetes_pod" "jupyterhub" {
       }
     }
   }
-# this will ignore the sha256() on every apply but other changes are ignored
-# Leaving here and if causes problem will remove
-      lifecycle {
-         ignore_changes = [
-           "spec"
-         ]
-      }
+
+  # this will ignore the sha256() on every apply but other changes are ignored
+  # Leaving here and if causes problem will remove
+  lifecycle {
+    ignore_changes = [
+      "spec",
+    ]
+  }
 }
 
 resource "kubernetes_service" "jupyter-public" {

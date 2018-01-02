@@ -39,7 +39,7 @@ variable "gcp_project" {
 ###############################################################################
 ## DNS Setup 
 variable "enable_dns" {
-   default = false
+  default = false
 }
 
 variable "dns_zone" {
@@ -70,16 +70,18 @@ variable "globus_oauth" {
 ## 
 #  google container engine configs
 variable "gke_options" {
-   type = "map"
-   description = "global options for gke/kubernetes"
-   default = {
-      name = "arcts-kube"
-      initial_node_count = 3
-      #zone = ""   # if not defined takes first from data "google_compute_zones" "available" {}
-      preemptible = false
-      disk_size_gb = 10   # size in GB, 10 is minimum value
-      machine_type = "n1-standard-1"
-   }
+  type        = "map"
+  description = "global options for gke/kubernetes"
+
+  default = {
+    name               = "arcts-kube"
+    initial_node_count = 3
+
+    #zone = ""   # if not defined takes first from data "google_compute_zones" "available" {}
+    preemptible  = false
+    disk_size_gb = 10              # size in GB, 10 is minimum value
+    machine_type = "n1-standard-1"
+  }
 }
 
 ###############################################################################

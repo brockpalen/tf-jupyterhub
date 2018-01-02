@@ -22,7 +22,7 @@ resource "google_container_cluster" "arcts-kube" {
 
   node_config {
     #service_account = "terraform@brockp-terraform-admin.iam.gserviceaccount.com"
-    preemptible = "${lookup(var.gke_options, "preemptible", "false")}"
+    preemptible  = "${lookup(var.gke_options, "preemptible", "false")}"
     disk_size_gb = "${lookup(var.gke_options, "disk_size_gb", "10")}"
     machine_type = "${lookup(var.gke_options, "machine_type", "n1-standard-1")}"
 
@@ -61,7 +61,7 @@ module "jupyterhub" {
 }
 
 output "jupyterhub_public_ip" {
-   value = "${module.jupyterhub.jupyter_service_lbip}"
+  value = "${module.jupyterhub.jupyter_service_lbip}"
 }
 
 ########################################
@@ -78,9 +78,9 @@ module "kube-nfs" {
 #
 resource "google_dns_record_set" "jupyterhub-lb" {
   count = "${var.enable_dns}"
-  name = "${var.dns_name}"
-  type = "A"
-  ttl  = 300
+  name  = "${var.dns_name}"
+  type  = "A"
+  ttl   = 300
 
   managed_zone = "${var.dns_zone}"
 
