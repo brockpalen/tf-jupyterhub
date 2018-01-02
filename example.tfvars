@@ -23,3 +23,13 @@ globus_oauth = {
     client_secret = "<CLIENT SECRET>"
     identity_provider = "umich.edu"
 }
+
+###############################################################################
+## Google Container Engine (GKE) Options
+gke_options = {
+    name = "arcts-kube"
+    initial_node_count = 3
+    preemptible = false
+    disk_size_gb = 10
+    machine_type = "n1-standard-1"
+}

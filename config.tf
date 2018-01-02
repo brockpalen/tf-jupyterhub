@@ -1,7 +1,21 @@
 ###############################################################################
 ##
 # DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
+# DO NOT NORMALLY EDIT THESE FILES
 #    see: https://www.terraform.io/docs/configuration/variables.html Variable Files
+#
+#  See example.tfvars
 #
 #  Put all options in .tfvars eg:
 #    terraform plan -var-file=rajrao.tfvars
@@ -52,6 +66,21 @@ variable "globus_oauth" {
   description = "Globus OAuth callback, client_id, and secret"
 }
 
+###############################################################################
+## 
+#  google container engine configs
+variable "gke_options" {
+   type = "map"
+   description = "global options for gke/kubernetes"
+   default = {
+      name = "arcts-kube"
+      initial_node_count = 3
+      #zone = ""   # if not defined takes first from data "google_compute_zones" "available" {}
+      preemptible = false
+      disk_size_gb = 10   # size in GB, 10 is minimum value
+      machine_type = "n1-standard-1"
+   }
+}
 
 ###############################################################################
 ##

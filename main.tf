@@ -15,13 +15,16 @@ provider "google" {
 data "google_compute_zones" "available" {}
 
 ## create GKE Google Container Engine (Kubernettes)
-resource "google_container_cluster" "kube" {
-  name               = "marcellus-wallace"
-  zone               = "${data.google_compute_zones.available.names[0]}"
-  initial_node_count = 3
+resource "google_container_cluster" "arcts-kube" {
+  name               = "${var.gke_options["name"]}"
+  zone               = "${lookup(var.gke_options, "zone", "${data.google_compute_zones.available.names[0]}")}"
+  initial_node_count = "${var.gke_options["initial_node_count"]}"
 
   node_config {
-    service_account = "terraform@brockp-terraform-admin.iam.gserviceaccount.com"
+    #service_account = "terraform@brockp-terraform-admin.iam.gserviceaccount.com"
+    preemptible = "${lookup(var.gke_options, "preemptible", "false")}"
+    disk_size_gb = "${lookup(var.gke_options, "disk_size_gb", "10")}"
+    machine_type = "${lookup(var.gke_options, "machine_type", "n1-standard-1")}"
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/compute",
@@ -35,13 +38,13 @@ resource "google_container_cluster" "kube" {
 #######################################
 ## Configure kubernetes provider and create service account for use with PODs
 #
-# start container on the created cluster kube
+# start container on the created cluster arcts-kube
 #
 provider "kubernetes" {
-  host                   = "https://${google_container_cluster.kube.endpoint}"
-  client_certificate     = "${base64decode(google_container_cluster.kube.master_auth.0.client_certificate)}"
-  client_key             = "${base64decode(google_container_cluster.kube.master_auth.0.client_key)}"
-  cluster_ca_certificate = "${base64decode(google_container_cluster.kube.master_auth.0.cluster_ca_certificate)}"
+  host                   = "https://${google_container_cluster.arcts-kube.endpoint}"
+  client_certificate     = "${base64decode(google_container_cluster.arcts-kube.master_auth.0.client_certificate)}"
+  client_key             = "${base64decode(google_container_cluster.arcts-kube.master_auth.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(google_container_cluster.arcts-kube.master_auth.0.cluster_ca_certificate)}"
 }
 
 ########################################
